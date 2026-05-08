@@ -80,5 +80,9 @@ try{
     await BookSegment.deleteMany({bookId});
     await Book.findByIdAndDelete(bookId);
     console.error('Deleted book segments and book due to failures to save segments.');
+    return {
+        success:false,
+        error:e
+    }
 }
 };

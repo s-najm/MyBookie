@@ -101,6 +101,26 @@ const onSubmit = async (data: BookUploadFormValues) => {
                 fileSize:pdfFile.size,
             }
         )
+        if(!book.success){
+             toast.error("Failed to create book. Please try again later.");
+        }
+        if(book.alreadyExists){
+            toast.info('Book already exists');
+            form.reset();
+            router.push(`/books/${existsCheck.book.slug}`);
+            return;
+        }
+        const segments=await saveBookSegments(book.data._id,userId,parsedPDF.content);
+        if(!segments.success){
+            toast.error("Failed to save book segments.");
+            throw new Error("Failed to save book segments.");
+        }
+        if(book.success){
+            toast.info('Book is saved');
+        }
+
+        form.reset();
+        router.push('/');
     }catch(error){
         console.error(error);
         toast.error("Failed to upload book. Please try again later.");
