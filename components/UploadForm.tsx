@@ -103,6 +103,7 @@ const onSubmit = async (data: BookUploadFormValues) => {
         )
         if(!book.success){
              toast.error("Failed to create book. Please try again later.");
+             return;
         }
         if(book.alreadyExists){
             toast.info('Book already exists');
@@ -110,6 +111,8 @@ const onSubmit = async (data: BookUploadFormValues) => {
             router.push(`/books/${existsCheck.book.slug}`);
             return;
         }
+        
+        
         const segments=await saveBookSegments(book.data._id,userId,parsedPDF.content);
         if(!segments.success){
             toast.error("Failed to save book segments.");
@@ -138,7 +141,7 @@ const onSubmit = async (data: BookUploadFormValues) => {
 
             <div className="new-book-wrapper">
                 <Form {...form}>
-                    <form  className="space-y-8">
+                    <form  onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         {/* 1. PDF File Upload */}
                         <FileUploader
                             control={form.control}
