@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
     images:{
       remotePatterns:[{protocol:'https',hostname:'covers.openlibrary.org',pathname:'/b/**'}],
+      unoptimized: true,
     }
 };
 
